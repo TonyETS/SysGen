@@ -45,8 +45,7 @@ USE IEEE.numeric_std.ALL;
 
 ENTITY filter IS
    PORT( clk                             :   IN    std_logic; 
-		 ce								 :   in 	std_logic;
-         clk_enable                      :   IN    std_logic; 
+         ce                      :   IN    std_logic; 
          reset                           :   IN    std_logic; 
          filter_in                       :   IN    std_logic_vector(15 DOWNTO 0); -- sfix16_En15
          filter_out                      :   OUT   std_logic_vector(36 DOWNTO 0)  -- sfix37_En35
@@ -720,7 +719,7 @@ BEGIN
     IF reset = '1' THEN
       cur_count <= to_unsigned(616, 10);
     ELSIF clk'event AND clk = '1' THEN
-      IF clk_enable = '1' THEN
+      IF ce = '1' THEN
         IF cur_count >= to_unsigned(616, 10) THEN
           cur_count <= to_unsigned(0, 10);
         ELSE
@@ -730,9 +729,9 @@ BEGIN
     END IF; 
   END PROCESS Counter_process;
 
-  phase_616 <= '1' WHEN cur_count = to_unsigned(616, 10) AND clk_enable = '1' ELSE '0';
+  phase_616 <= '1' WHEN cur_count = to_unsigned(616, 10) AND ce = '1' ELSE '0';
 
-  phase_0 <= '1' WHEN cur_count = to_unsigned(0, 10) AND clk_enable = '1' ELSE '0';
+  phase_0 <= '1' WHEN cur_count = to_unsigned(0, 10) AND ce = '1' ELSE '0';
 
   Delay_Pipeline_process : PROCESS (clk, reset)
   BEGIN
@@ -1999,7 +1998,7 @@ BEGIN
     IF reset = '1' THEN
       acc_out_1 <= (OTHERS => '0');
     ELSIF clk'event AND clk = '1' THEN
-      IF clk_enable = '1' THEN
+      IF ce = '1' THEN
         acc_out_1 <= acc_in_1;
       END IF;
     END IF; 
