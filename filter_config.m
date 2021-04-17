@@ -23,7 +23,7 @@ function filter_config(this_block)
   this_block.addSimulinkOutport('filter_out');
 
   filter_out_port = this_block.port('filter_out');
-  filter_out_port.setType('Fix_39_37');    %Fix_16_12
+  filter_out_port.setType('Fix_35_34');    %Fix_16_12
 
   % -----------------------------
   if (this_block.inputTypesKnown)
